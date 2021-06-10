@@ -17,7 +17,11 @@ import java.text.ParseException;
 import java.awt.event.ActionEvent;
 import javax.swing.border.LineBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.plaf.metal.MetalLookAndFeel;
 import javax.swing.text.MaskFormatter;
+
+import com.jtattoo.plaf.aluminium.AluminiumLookAndFeel;
+import com.jtattoo.plaf.bernstein.BernsteinLookAndFeel;
 
 import tri.engineering.sarl.FrameDashBoard;
 import tri.engineering.sarl.dao.ConnexionMysql;
@@ -31,10 +35,14 @@ import java.awt.Image;
 
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
-
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.JFormattedTextField;
 import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
+import javax.swing.JScrollPane;
+import java.awt.Component;
+import javax.swing.JTextArea;
 
 public class AjouteAuto extends JFrame {
 
@@ -75,6 +83,8 @@ public class AjouteAuto extends JFrame {
 	public MaskFormatter maskFormatter;
 	public JFormattedTextField formattedtfAnnee;
 	public JComboBox<String> comboBoxType;
+	private JTextField textField;
+	private JTextField textField_1;
 
 
 	/**
@@ -99,9 +109,10 @@ public class AjouteAuto extends JFrame {
 	 */
 	@SuppressWarnings("deprecation")
 	public AjouteAuto() {
+		disgn();
 		con = ConnexionMysql.Connectedb();
 		//setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 432, 386);
+		setBounds(100, 100, 490, 482);
 		contentPane = new JPanel();
 		contentPane.setBorder(new LineBorder(new Color(0, 0, 0), 4, true));
 		setLocationRelativeTo(null);
@@ -115,7 +126,7 @@ public class AjouteAuto extends JFrame {
 				produitAutoPanel.updateTable();
 			}
 		});
-		btnAnnuler.setBounds(10, 333, 89, 42);
+		btnAnnuler.setBounds(10, 425, 89, 42);
 		btnAnnuler.setIcon(new ImageIcon(img_cencel));
 		contentPane.add(btnAnnuler);
 
@@ -202,57 +213,58 @@ public class AjouteAuto extends JFrame {
 				}
 			}
 		});
-		btnAjoute.setBounds(319, 333, 89, 42);
+		btnAjoute.setBounds(372, 425, 89, 42);
 		btnAjoute.setIcon(new ImageIcon(img_accept));
 		contentPane.add(btnAjoute);
 
 		JLabel lblQty = new JLabel("Quantit\u00E9");
-		lblQty.setHorizontalAlignment(SwingConstants.CENTER);
+		lblQty.setHorizontalAlignment(SwingConstants.LEFT);
 		lblQty.setFont(new Font("Arial", Font.BOLD | Font.ITALIC, 15));
-		lblQty.setBounds(10, 49, 60, 23);
+		lblQty.setBounds(10, 48, 60, 23);
 		contentPane.add(lblQty);
 
 		tfQty = new JTextField();
-		tfQty.setBounds(79, 50, 142, 23);
+		tfQty.setBounds(112, 49, 176, 23);
 		contentPane.add(tfQty);
 		tfQty.setColumns(10);
 
 		lblId = new JLabel("Id");
 		lblId.setHorizontalAlignment(SwingConstants.CENTER);
 		lblId.setFont(new Font("Arial", Font.BOLD | Font.ITALIC, 15));
-		lblId.setBounds(214, 48, 60, 23);
+		lblId.setBounds(270, 48, 60, 23);
 		contentPane.add(lblId);
 
 		tfId = new JTextField();
 		tfId.setHorizontalAlignment(SwingConstants.CENTER);
 		tfId.setColumns(10);
-		tfId.setBounds(283, 49, 125, 23);
+		tfId.setBounds(339, 49, 125, 23);
 		tfId.disable();
 		contentPane.add(tfId);
 
 		lblType = new JLabel("Type");
-		lblType.setHorizontalAlignment(SwingConstants.CENTER);
+		lblType.setHorizontalAlignment(SwingConstants.LEFT);
 		lblType.setFont(new Font("Arial", Font.BOLD | Font.ITALIC, 15));
-		lblType.setBounds(10, 100, 60, 23);
+		lblType.setBounds(10, 96, 60, 23);
 		contentPane.add(lblType);
 
 		try {
 			maskFormatter = new MaskFormatter("####");
 			formattedtfAnnee = new JFormattedTextField(maskFormatter);
-			formattedtfAnnee.setBounds(79, 153, 142, 21);
+			formattedtfAnnee.setBounds(112, 145, 177, 21);
 			contentPane.add(formattedtfAnnee);
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
 
 		lblAnnee = new JLabel("Ann\u00E9e");
-		lblAnnee.setHorizontalAlignment(SwingConstants.CENTER);
+		lblAnnee.setHorizontalAlignment(SwingConstants.LEFT);
 		lblAnnee.setFont(new Font("Arial", Font.BOLD | Font.ITALIC, 15));
-		lblAnnee.setBounds(10, 151, 60, 23);
+		lblAnnee.setBounds(10, 144, 60, 23);
 		contentPane.add(lblAnnee);
 
 		comboBoxType = new JComboBox<String>();
-		comboBoxType.setBounds(79, 101, 142, 22);
+		comboBoxType.setEditable(true);
+		comboBoxType.setBounds(112, 97, 177, 22);
 		comboBoxType.addItem("");
 		comboBoxType.addItem("CONTINENTAL");
 		comboBoxType.addItem("FOMOCO");
@@ -263,7 +275,7 @@ public class AjouteAuto extends JFrame {
 
 		JPanel panelPhoto = new JPanel();
 		panelPhoto.setBackground(Color.WHITE);
-		panelPhoto.setBounds(243, 105, 164, 183);
+		panelPhoto.setBounds(299, 195, 164, 183);
 		contentPane.add(panelPhoto);
 		panelPhoto.setLayout(null);
 
@@ -273,36 +285,36 @@ public class AjouteAuto extends JFrame {
 		panelPhoto.add(lblPhoto);
 
 		JLabel lblRef1 = new JLabel("R\u00E9f 1");
-		lblRef1.setHorizontalAlignment(SwingConstants.CENTER);
+		lblRef1.setHorizontalAlignment(SwingConstants.LEFT);
 		lblRef1.setFont(new Font("Arial", Font.BOLD | Font.ITALIC, 15));
-		lblRef1.setBounds(10, 204, 60, 23);
+		lblRef1.setBounds(10, 194, 60, 23);
 		contentPane.add(lblRef1);
 
 		tfRef1 = new JTextField();
 		tfRef1.setColumns(10);
-		tfRef1.setBounds(79, 205, 142, 23);
+		tfRef1.setBounds(112, 194, 177, 23);
 		contentPane.add(tfRef1);
 
 		JLabel lblRef2 = new JLabel("R\u00E9f 2");
-		lblRef2.setHorizontalAlignment(SwingConstants.CENTER);
+		lblRef2.setHorizontalAlignment(SwingConstants.LEFT);
 		lblRef2.setFont(new Font("Arial", Font.BOLD | Font.ITALIC, 15));
-		lblRef2.setBounds(10, 254, 60, 23);
+		lblRef2.setBounds(10, 244, 60, 23);
 		contentPane.add(lblRef2);
 
 		tfRef2 = new JTextField();
 		tfRef2.setColumns(10);
-		tfRef2.setBounds(79, 255, 142, 23);
+		tfRef2.setBounds(112, 245, 177, 23);
 		contentPane.add(tfRef2);
 
 		lblMarque = new JLabel("Marque");
 		lblMarque.setHorizontalAlignment(SwingConstants.CENTER);
 		lblMarque.setFont(new Font("Arial", Font.BOLD | Font.ITALIC, 15));
-		lblMarque.setBounds(10, 298, 60, 23);
+		lblMarque.setBounds(10, 297, 60, 23);
 		contentPane.add(lblMarque);
 
 		tfMarque = new JTextField();
 		tfMarque.setColumns(10);
-		tfMarque.setBounds(79, 299, 142, 23);
+		tfMarque.setBounds(112, 298, 177, 23);
 		contentPane.add(tfMarque);
 
 		btnParcourir = new JButton("Parcourir");
@@ -330,15 +342,50 @@ public class AjouteAuto extends JFrame {
 					}			
 			}
 		});
-		btnParcourir.setBounds(243, 299, 165, 23);
+		btnParcourir.setBounds(299, 389, 165, 23);
 		contentPane.add(btnParcourir);
 
 		lblNewLabel = new JLabel("Ajouter un Produit  Auto");
 		lblNewLabel.setForeground(new Color(205, 133, 63));
 		lblNewLabel.setFont(new Font("Arial", Font.BOLD, 20));
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel.setBounds(51, 11, 325, 27);
+		lblNewLabel.setBounds(82, 11, 325, 27);
 		contentPane.add(lblNewLabel);
+		
+		JLabel lblMarque_1 = new JLabel("Prix");
+		lblMarque_1.setHorizontalAlignment(SwingConstants.LEFT);
+		lblMarque_1.setFont(new Font("Arial", Font.BOLD | Font.ITALIC, 15));
+		lblMarque_1.setBounds(10, 343, 60, 23);
+		contentPane.add(lblMarque_1);
+		
+		textField = new JTextField();
+		textField.setColumns(10);
+		textField.setBounds(112, 344, 177, 23);
+		contentPane.add(textField);
+		
+		JLabel lblMarque_2 = new JLabel("Emplacement");
+		lblMarque_2.setHorizontalAlignment(SwingConstants.LEFT);
+		lblMarque_2.setFont(new Font("Arial", Font.BOLD | Font.ITALIC, 14));
+		lblMarque_2.setBounds(10, 387, 102, 23);
+		contentPane.add(lblMarque_2);
+		
+		textField_1 = new JTextField();
+		textField_1.setColumns(10);
+		textField_1.setBounds(112, 387, 177, 23);
+		contentPane.add(textField_1);
+		
+		JScrollPane scrollPane = new JScrollPane((Component) null);
+		scrollPane.setBounds(301, 101, 164, 86);
+		contentPane.add(scrollPane);
+		
+		JTextArea textArea = new JTextArea();
+		scrollPane.setViewportView(textArea);
+		
+		JLabel lblDescription = new JLabel("Description");
+		lblDescription.setHorizontalAlignment(SwingConstants.CENTER);
+		lblDescription.setFont(new Font("Arial", Font.BOLD, 15));
+		lblDescription.setBounds(309, 80, 154, 23);
+		contentPane.add(lblDescription);
 	}
 	public void getId() {
 		String sql = "select max(ID)+1 as id from automobile";
@@ -352,6 +399,14 @@ public class AjouteAuto extends JFrame {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+	private void disgn() {
+		try {
+			UIManager.setLookAndFeel(new AluminiumLookAndFeel());
+		} catch (UnsupportedLookAndFeelException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}	
 	}
 }
 

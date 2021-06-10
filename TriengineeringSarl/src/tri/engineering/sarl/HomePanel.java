@@ -3,6 +3,8 @@ package tri.engineering.sarl;
 import javax.swing.JPanel;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import java.awt.Image;
 import java.sql.Connection;
@@ -16,6 +18,9 @@ import javax.swing.SwingConstants;
 
 import java.awt.Color;
 import javax.swing.border.LineBorder;
+import javax.swing.plaf.synth.SynthOptionPaneUI;
+
+import tri.engineering.sarl.auto.ProduitAutoPanel;
 import tri.engineering.sarl.dao.ConnexionMysql;
 
 
@@ -43,7 +48,7 @@ public class HomePanel extends JPanel {
 	Image img_vue = new ImageIcon(FrameDashBoard.class.getResource("/res/show_icon_153436.png")).getImage().getScaledInstance(48, 48,Image.SCALE_SMOOTH);
 
 	Image img1 = new ImageIcon(FrameDashBoard.class.getResource("/res/auto-mechanic-using-measuring-equipment-tool-checking-car-battery_101448-1532.jpg")).getImage().getScaledInstance(770, 484,Image.SCALE_SMOOTH);
-
+	
 	public JLabel lblCunt;
 
 	public JLabel lblVue_1;
@@ -206,7 +211,7 @@ public class HomePanel extends JPanel {
 		
 	}
 	public void getId() {
-		String sql = "select max(ID) as id from automobile";
+		String sql = "select count(*) as id from automobile";
 		try {
 			pst = con.prepareStatement(sql);
 			rs = pst.executeQuery();
@@ -219,14 +224,13 @@ public class HomePanel extends JPanel {
 		}
 	}
 	public void getIdd() {
-		String sql = "select max(ID) as id from elecrique";
+		String sql = "select count(*) as id from elecrique";
 		try {
 			pst = con.prepareStatement(sql);
 			rs = pst.executeQuery();
 			while(rs.next()) {
-				lblCunt_1.setText(rs.getString("Id"));
-				
-			}
+				lblCunt_1.setText(rs.getString("id"));
+				}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

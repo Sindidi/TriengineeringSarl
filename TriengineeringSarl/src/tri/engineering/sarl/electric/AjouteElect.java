@@ -79,6 +79,7 @@ public class AjouteElect extends JFrame {
 
 	public JTextArea textArea;
 	private JScrollPane scrollPane;
+	private JTextField textField;
 
 	
 
@@ -106,7 +107,7 @@ public class AjouteElect extends JFrame {
 	public AjouteElect() {
 		con = ConnexionMysql.Connectedb();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 432, 386);
+		setBounds(100, 100, 431, 428);
 		contentPane = new JPanel();
 		contentPane.setBorder(new LineBorder(new Color(0, 0, 0), 4, true));
 		setLocationRelativeTo(null);
@@ -123,7 +124,7 @@ public class AjouteElect extends JFrame {
 				
 			}
 		});
-		btnAnnuler.setBounds(10, 333, 89, 42);
+		btnAnnuler.setBounds(10, 374, 89, 42);
 		btnAnnuler.setIcon(new ImageIcon(img_cencel));
 		contentPane.add(btnAnnuler);
 
@@ -211,7 +212,7 @@ public class AjouteElect extends JFrame {
 
 			}
 		});
-		btnAjoute.setBounds(333, 333, 89, 42);
+		btnAjoute.setBounds(333, 374, 89, 42);
 		btnAjoute.setIcon(new ImageIcon(img_accept));
 		contentPane.add(btnAjoute);
 
@@ -354,6 +355,17 @@ public class AjouteElect extends JFrame {
 		scrollPane = new JScrollPane(textArea);
 		scrollPane.setBounds(10, 202, 239, 86);
 		contentPane.add(scrollPane);
+		
+		JLabel lblMarque_2 = new JLabel("Emplacement");
+		lblMarque_2.setHorizontalAlignment(SwingConstants.LEFT);
+		lblMarque_2.setFont(new Font("Arial", Font.BOLD | Font.ITALIC, 14));
+		lblMarque_2.setBounds(10, 333, 245, 23);
+		contentPane.add(lblMarque_2);
+		
+		textField = new JTextField();
+		textField.setColumns(10);
+		textField.setBounds(112, 333, 146, 23);
+		contentPane.add(textField);
 	}
 	public void getId() {
 		String sql = "select max(ID)+1 as id from elecrique";
